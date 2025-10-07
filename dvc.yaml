@@ -2,66 +2,66 @@ stages:
   data_ingestion:
     cmd: python src/data_ingestion.py
     deps:
-      - src/data_ingestion.py
+    - src/data_ingestion.py
     params:
-      - data_ingestion.test_size
+    - data_ingestion.test_size
     outs:
-      - data/raw/train.csv
-      - data/raw/test.csv
+    - data/raw/train.csv
+    - data/raw/test.csv
 
   data_preprocessing:
     cmd: python src/data_preprocessing.py
     deps:
-      - src/data_preprocessing.py
-      - data/raw/train.csv
-      - data/raw/test.csv
+    - src/data_preprocessing.py
+    - data/raw/train.csv
+    - data/raw/test.csv
     outs:
-      - data/interim/train_processed.csv
-      - data/interim/test_processed.csv
+    - data/interim/train_processed.csv
+    - data/interim/test_processed.csv
 
   feature_engineering:
     cmd: python src/feature_engineering.py
     deps:
-      - src/feature_engineering.py
-      - data/interim/train_processed.csv
-      - data/interim/test_processed.csv
+    - src/feature_engineering.py
+    - data/interim/train_processed.csv
+    - data/interim/test_processed.csv
     params:
-      - feature_engineering.max_features
+    - feature_engineering.max_features
     outs:
-      - data/processed/train_tfidf.csv
-      - data/processed/test_tfidf.csv
+    - data/processed/train_tfidf.csv
+    - data/processed/test_tfidf.csv
 
   model_building:
     cmd: python src/model_building.py
     deps:
-      - src/model_building.py
-      - data/processed/train_tfidf.csv
+    - src/model_building.py
+    - data/processed/train_tfidf.csv
     params:
-      - model_building.n_estimators
-      - model_building.random_state
+    - model_building.n_estimators
+    - model_building.random_state
     outs:
-      - models/model.pkl
+    - models/model.pkl
 
   model_evaluation:
     cmd: python src/model_evaluation.py
     deps:
-      - src/model_evaluation.py
-      - models/model.pkl
-      - data/processed/test_tfidf.csv
+    - src/model_evaluation.py
+    - models/model.pkl
+    - data/processed/test_tfidf.csv
     params:
-      - model_building.n_estimators
-      - model_building.random_state
-      - feature_engineering.max_features
-      - data_ingestion.test_size
+    - model_building.n_estimators
+    - model_building.random_state
+    - feature_engineering.max_features
+    - data_ingestion.test_size
     metrics:
-      - reports/metrics.json
-      - dvclive/metrics.json
+    - reports/metrics.json
+    - dvclive/metrics.json
     plots:
-      - dvclive/plots/metrics
+    - dvclive/plots/metrics
 params:
-  - dvclive/params.yaml
+- dvclive/params.yaml
 metrics:
-  - dvclive/metrics.json
+- dvclive/metrics.json
 plots:
-  - dvclive/plots/metrics:
-      x: step
+- dvclive/plots/metrics:
+    x: step

@@ -1,0 +1,18 @@
+cmd: python src/data_ingestion.py
+deps:
+- path: src/data_ingestion.py
+  hash: md5
+  md5: 4e517781109afb5890f11be1d3d295f6
+  size: 3539
+params:
+  params.yaml:
+    data_ingestion.test_size: 0.2
+outs:
+- path: data/raw/test.csv
+  hash: md5
+  md5: e3685b4f9a457c51c2125212094a6cb6
+  size: 96178
+- path: data/raw/train.csv
+  hash: md5
+  md5: e60af55462f3ed3e98d8e2d57badce95
+  size: 388668
